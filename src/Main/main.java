@@ -22,16 +22,21 @@ public class main extends javax.swing.JFrame {
     ArrayList<Cliente> clientesGeneral, clientesEscritor;
     ArrayList<Despachador> despachadores;
     Despachador despachador1, despachador2, despachador3, despachador4, despachador5;
-    int posicionY;
-    boolean lectorEnArea, escritorEnArea;
+    int posicionGeneralY, posicionEscritorY,contadorLectores = 0;
+    boolean lectorEnArea,escritorEnArea;
 
     public main() {
         initComponents();
         setVisible(true);
         setLocationRelativeTo(null);
         clientesGeneral = new ArrayList<Cliente>();
+        clientesEscritor = new ArrayList<>();
         despachadores = new ArrayList<Despachador>();
-        posicionY = 0;
+        posicionGeneralY = 0;
+        posicionEscritorY = 0;
+        lectorEnArea = false;
+        escritorEnArea = false;
+        
 
         despachador1 = new Despachador(panelCaja1, barraProgreso1);
         despachador2 = new Despachador(panelCaja2, barraProgreso2);
@@ -74,6 +79,7 @@ public class main extends javax.swing.JFrame {
         barraProgreso4 = new javax.swing.JProgressBar();
         barraProgreso5 = new javax.swing.JProgressBar();
         btnAtender = new javax.swing.JButton();
+        btnAtenderEscritor = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -208,10 +214,17 @@ public class main extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Despacho");
 
-        btnAtender.setText("Atender");
+        btnAtender.setText("Atender General");
         btnAtender.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAtenderActionPerformed(evt);
+            }
+        });
+
+        btnAtenderEscritor.setText("Atender Escritor");
+        btnAtenderEscritor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtenderEscritorActionPerformed(evt);
             }
         });
 
@@ -224,38 +237,39 @@ public class main extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 903, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(panelCaja1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(panelCaja2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(panelCaja3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(panelCaja4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(barraProgreso1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(barraProgreso2, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(barraProgreso3, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(barraProgreso4, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(panelCaja1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(panelCaja2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(panelCaja3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(panelCaja4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(barraProgreso1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(barraProgreso2, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(barraProgreso3, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(barraProgreso4, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(panelEsperaGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(90, 90, 90)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnIngresarLector)
-                                    .addComponent(btnLimpiar))
-                                .addGap(68, 68, 68)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnIngresarEscritor)
-                                    .addComponent(btnAtender, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(88, 88, 88)))
+                                    .addComponent(btnLimpiar)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(btnIngresarLector)
+                                            .addComponent(btnAtender, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(50, 50, 50)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(btnIngresarEscritor)
+                                            .addComponent(btnAtenderEscritor, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(barraProgreso5, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -267,18 +281,18 @@ public class main extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(barraProgreso1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(barraProgreso2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(barraProgreso5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(barraProgreso3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(barraProgreso4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(barraProgreso1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(barraProgreso2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(barraProgreso5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(barraProgreso3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(barraProgreso4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(panelCaja3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -290,16 +304,19 @@ public class main extends javax.swing.JFrame {
                         .addGap(37, 37, 37)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(panelEsperaEscritor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(panelEsperaGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
+                            .addComponent(panelEsperaGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnIngresarLector)
                             .addComponent(btnIngresarEscritor))
-                        .addGap(31, 31, 31)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnLimpiar)
-                            .addComponent(btnAtender, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
+                        .addGap(36, 36, 36)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAtender, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAtenderEscritor))
+                        .addGap(35, 35, 35)
+                        .addComponent(btnLimpiar)
+                        .addGap(40, 40, 40)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1))
@@ -308,40 +325,73 @@ public class main extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-public void desplazarCliente() {
-        for (Cliente cliente : clientesGeneral) {
+public void desplazarCliente(JPanel panel,ArrayList<Cliente> clientes,int posicionY) {
+        for (Cliente cliente : clientes) {
             int y = cliente.getLabel().getY();
             y -= 129;
             cliente.getLabel().setBounds(0, y, 178, 129);
         }
-        panelEsperaGeneral.repaint();
-        posicionY -= 129;
+        panel.repaint();
+        if(posicionY ==0){
+          posicionGeneralY -= 129;  
+        }
+        else{
+          posicionEscritorY-=129;
+        }
+        
     }
-    private void btnIngresarLectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarLectorActionPerformed
-        Cliente cliente = new Cliente(0);
-        if (clientesGeneral.size() < 4) {
+
+    public int ingresarCliente(JPanel panel, Cliente cliente, ArrayList<Cliente> clientes, int posicionY) {
+        if (clientes.size() < 4) {
             cliente.getLabel().setBounds(0, posicionY, 178, 129);
-            panelEsperaGeneral.add(cliente.getLabel());
-            panelEsperaGeneral.repaint();
+            panel.add(cliente.getLabel());
+            panel.repaint();
             posicionY += 129;
-            clientesGeneral.add(cliente);
+            clientes.add(cliente);
         } else {
             JOptionPane.showMessageDialog(null, "Ya no hay espacion en la fila general", "Error", JOptionPane.ERROR_MESSAGE);
         }
+        return posicionY;
+    }
+    public void AtenderEscritor(JPanel panel,ArrayList<Cliente> clientes,int posicionY){
+        //recorremos el array de despachadores buscando uno que este libre con estado 0
+                for (Despachador despachador : despachadores) {
+                    if (despachador.getEstado() == 0) {//verificamos el estado 
+                        //removemos del panel de espera general el cliente que este en la primera posicion
+                        panel.remove(clientes.get(0).getLabel());
+                        //volvemos a pintar el panel
+                        panel.repaint();
+                        //le ingresamos al despachador el cliente 
+                        despachador.setCliente(clientes.get(0));
+                        //agragamos el label del cliente al panel del despachador 
+                        despachador.getPanel().add(despachador.getCliente().getLabel());
+                        //volvemos a pintar el panel del despachador 
+                        despachador.getPanel().repaint();
+                        //removemos de la lista de clientes el primer cliente 
+                        clientes.remove(0);
+                        //desplazamos los clientes una posicion
+                        desplazarCliente( panel, clientes, posicionY);
+                        //pones el estado del despachador en 1, lo que signfica que ahora esta ocupado
+                        despachador.setEstado(1);
+                        AtenderCliente atender = new AtenderCliente(despachador);
+                        atender.start();
+                        break;
+                    }
+
+                }
+        
+    }
+
+    private void btnIngresarLectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarLectorActionPerformed
+        Cliente cliente = new Cliente(0);
+        posicionGeneralY = ingresarCliente(panelEsperaGeneral, cliente, clientesGeneral, posicionGeneralY);
+        System.out.println(posicionGeneralY);
     }//GEN-LAST:event_btnIngresarLectorActionPerformed
 
     private void btnIngresarEscritorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarEscritorActionPerformed
         Cliente cliente = new Cliente(1);
-        if (clientesGeneral.size() < 4) {
-            cliente.getLabel().setBounds(posicionY, 0, 178, 129);
-            cliente.getLabel().setBounds(0, posicionY, 178, 129);
-            panelEsperaGeneral.add(cliente.getLabel());
-            panelEsperaGeneral.repaint();
-            posicionY += 129;
-            clientesGeneral.add(cliente);
-        } else {
-            JOptionPane.showMessageDialog(null, "Ya no hay espacion en la fila general", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        posicionGeneralY = ingresarCliente(panelEsperaGeneral,cliente, clientesGeneral, posicionGeneralY);
+        System.out.println(posicionGeneralY);
     }//GEN-LAST:event_btnIngresarEscritorActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
@@ -349,35 +399,50 @@ public void desplazarCliente() {
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnAtenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtenderActionPerformed
+        //atender a clientes del panel general 
         if (clientesGeneral.size() > 0) {
-            //recorremos el array de despachadores buscando uno que este libre con estado 0
-            for (Despachador despachador : despachadores) {
-                if (despachador.getEstado() == 0) {//verificamos el estado 
-                    //removemos del panel de espera general el cliente que este en la primera posicion
-                    panelEsperaGeneral.remove(clientesGeneral.get(0).getLabel());
-                    //volvemos a pintar el panel
-                    panelEsperaGeneral.repaint();
-                    //le ingresamos al despachador el cliente 
-                    despachador.setCliente(clientesGeneral.get(0));
-                    //agragamos el label del cliente al panel del despachador 
-                    despachador.getPanel().add(despachador.getCliente().getLabel());
-                    //volvemos a pintar el panel del despachador 
-                    despachador.getPanel().repaint();
-                    //removemos de la lista de clientes el primer cliente 
-                    clientesGeneral.remove(0);
-                    //desplazamos los clientes una posicion
-                    desplazarCliente();
-                    //pones el estado del despachador en 1, lo que signfica que ahora esta ocupado
-                    despachador.setEstado(1);
-                    AtenderCliente atender = new AtenderCliente(despachador);
-                    atender.start();
-                    break;
+            if(clientesGeneral.get(0).getTipoCliente()==0){
+                if(escritorEnArea == false){
+                   AtenderEscritor(panelEsperaGeneral,clientesGeneral,0);
+                   contadorLectores++;
+                }   
+            }
+            else if(clientesGeneral.get(0).getTipoCliente()==1){
+                System.out.println("entro");
+                if(contadorLectores == 0 && escritorEnArea == false){
+                   AtenderEscritor(panelEsperaGeneral,clientesGeneral,0);
+                   escritorEnArea = true;
+                   
+                }
+                else{
+                   Cliente cliente = clientesGeneral.get(0);
+                   clientesGeneral.remove(0);
+                   panelEsperaGeneral.remove(cliente.getLabel());
+                   panelEsperaGeneral.repaint();
+                   posicionEscritorY = ingresarCliente(panelEsperaEscritor,cliente, clientesEscritor, posicionEscritorY);
+                   desplazarCliente(panelEsperaGeneral,clientesGeneral,0);
                 }
             }
+                 
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"No hay clientes para antender en el general","Error",JOptionPane.ERROR_MESSAGE);
         }
 
-
     }//GEN-LAST:event_btnAtenderActionPerformed
+
+    private void btnAtenderEscritorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtenderEscritorActionPerformed
+        if(clientesEscritor.size()>0){
+            if(contadorLectores == 0 && escritorEnArea == false){
+                AtenderEscritor(panelEsperaEscritor,clientesEscritor,1);
+                escritorEnArea = true;
+            }   
+        }
+        else{
+          JOptionPane.showMessageDialog(null,"No hay clientes para antender en la lista de escritores","Error",JOptionPane.ERROR_MESSAGE);  
+        }
+        
+    }//GEN-LAST:event_btnAtenderEscritorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -417,6 +482,7 @@ public void desplazarCliente() {
     public class AtenderCliente extends Thread {
 
         Despachador despachador;
+
         public AtenderCliente(Despachador despachador) {
             this.despachador = despachador;
         }
@@ -439,6 +505,12 @@ public void desplazarCliente() {
             despachador.setEstado(0);
             //dejamos la barra de progreso igual a cero
             despachador.getBarra().setValue(0);
+            //si hay mas de un lector se reduce
+            if(contadorLectores!=0){
+                contadorLectores-=1;
+            }
+            //si entro un escritor se pone en falso
+            escritorEnArea = false;
 
         }
 
@@ -451,6 +523,7 @@ public void desplazarCliente() {
     private javax.swing.JProgressBar barraProgreso4;
     private javax.swing.JProgressBar barraProgreso5;
     private javax.swing.JButton btnAtender;
+    private javax.swing.JToggleButton btnAtenderEscritor;
     private javax.swing.JButton btnIngresarEscritor;
     private javax.swing.JButton btnIngresarLector;
     private javax.swing.JButton btnLimpiar;
