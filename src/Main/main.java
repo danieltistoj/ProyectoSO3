@@ -22,8 +22,8 @@ public class main extends javax.swing.JFrame {
     ArrayList<Cliente> clientesGeneral, clientesEscritor;
     ArrayList<Despachador> despachadores;
     Despachador despachador1, despachador2, despachador3, despachador4, despachador5;
-    int posicionGeneralY, posicionEscritorY,contadorLectores = 0;
-    boolean lectorEnArea,escritorEnArea;
+    int posicionGeneralY, posicionEscritorY, contadorLectores = 0;
+    boolean lectorEnArea, escritorEnArea;
 
     public main() {
         initComponents();
@@ -36,7 +36,6 @@ public class main extends javax.swing.JFrame {
         posicionEscritorY = 0;
         lectorEnArea = false;
         escritorEnArea = false;
-        
 
         despachador1 = new Despachador(panelCaja1, barraProgreso1);
         despachador2 = new Despachador(panelCaja2, barraProgreso2);
@@ -325,20 +324,19 @@ public class main extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-public void desplazarCliente(JPanel panel,ArrayList<Cliente> clientes,int posicionY) {
+public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posicionY) {
         for (Cliente cliente : clientes) {
             int y = cliente.getLabel().getY();
             y -= 129;
             cliente.getLabel().setBounds(0, y, 178, 129);
         }
         panel.repaint();
-        if(posicionY ==0){
-          posicionGeneralY -= 129;  
+        if (posicionY == 0) {
+            posicionGeneralY -= 129;
+        } else {
+            posicionEscritorY -= 129;
         }
-        else{
-          posicionEscritorY-=129;
-        }
-        
+
     }
 
     public int ingresarCliente(JPanel panel, Cliente cliente, ArrayList<Cliente> clientes, int posicionY) {
@@ -353,33 +351,34 @@ public void desplazarCliente(JPanel panel,ArrayList<Cliente> clientes,int posici
         }
         return posicionY;
     }
-    public void AtenderEscritor(JPanel panel,ArrayList<Cliente> clientes,int posicionY){
-        //recorremos el array de despachadores buscando uno que este libre con estado 0
-                for (Despachador despachador : despachadores) {
-                    if (despachador.getEstado() == 0) {//verificamos el estado 
-                        //removemos del panel de espera general el cliente que este en la primera posicion
-                        panel.remove(clientes.get(0).getLabel());
-                        //volvemos a pintar el panel
-                        panel.repaint();
-                        //le ingresamos al despachador el cliente 
-                        despachador.setCliente(clientes.get(0));
-                        //agragamos el label del cliente al panel del despachador 
-                        despachador.getPanel().add(despachador.getCliente().getLabel());
-                        //volvemos a pintar el panel del despachador 
-                        despachador.getPanel().repaint();
-                        //removemos de la lista de clientes el primer cliente 
-                        clientes.remove(0);
-                        //desplazamos los clientes una posicion
-                        desplazarCliente( panel, clientes, posicionY);
-                        //pones el estado del despachador en 1, lo que signfica que ahora esta ocupado
-                        despachador.setEstado(1);
-                        AtenderCliente atender = new AtenderCliente(despachador);
-                        atender.start();
-                        break;
-                    }
 
-                }
-        
+    public void AtenderEscritor(JPanel panel, ArrayList<Cliente> clientes, int posicionY) {
+        //recorremos el array de despachadores buscando uno que este libre con estado 0
+        for (Despachador despachador : despachadores) {
+            if (despachador.getEstado() == 0) {//verificamos el estado 
+                //removemos del panel de espera general el cliente que este en la primera posicion
+                panel.remove(clientes.get(0).getLabel());
+                //volvemos a pintar el panel
+                panel.repaint();
+                //le ingresamos al despachador el cliente 
+                despachador.setCliente(clientes.get(0));
+                //agragamos el label del cliente al panel del despachador 
+                despachador.getPanel().add(despachador.getCliente().getLabel());
+                //volvemos a pintar el panel del despachador 
+                despachador.getPanel().repaint();
+                //removemos de la lista de clientes el primer cliente 
+                clientes.remove(0);
+                //desplazamos los clientes una posicion
+                desplazarCliente(panel, clientes, posicionY);
+                //pones el estado del despachador en 1, lo que signfica que ahora esta ocupado
+                despachador.setEstado(1);
+                AtenderCliente atender = new AtenderCliente(despachador);
+                atender.start();
+                break;
+            }
+
+        }
+
     }
 
     private void btnIngresarLectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarLectorActionPerformed
@@ -390,7 +389,7 @@ public void desplazarCliente(JPanel panel,ArrayList<Cliente> clientes,int posici
 
     private void btnIngresarEscritorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarEscritorActionPerformed
         Cliente cliente = new Cliente(1);
-        posicionGeneralY = ingresarCliente(panelEsperaGeneral,cliente, clientesGeneral, posicionGeneralY);
+        posicionGeneralY = ingresarCliente(panelEsperaGeneral, cliente, clientesGeneral, posicionGeneralY);
         System.out.println(posicionGeneralY);
     }//GEN-LAST:event_btnIngresarEscritorActionPerformed
 
@@ -401,47 +400,43 @@ public void desplazarCliente(JPanel panel,ArrayList<Cliente> clientes,int posici
     private void btnAtenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtenderActionPerformed
         //atender a clientes del panel general 
         if (clientesGeneral.size() > 0) {
-            if(clientesGeneral.get(0).getTipoCliente()==0){
-                if(escritorEnArea == false){
-                   AtenderEscritor(panelEsperaGeneral,clientesGeneral,0);
-                   contadorLectores++;
-                }   
-            }
-            else if(clientesGeneral.get(0).getTipoCliente()==1){
+            if (clientesGeneral.get(0).getTipoCliente() == 0) {
+                if (escritorEnArea == false) {
+                    AtenderEscritor(panelEsperaGeneral, clientesGeneral, 0);
+                    contadorLectores++;
+                }
+            } else if (clientesGeneral.get(0).getTipoCliente() == 1) {
                 System.out.println("entro");
-                if(contadorLectores == 0 && escritorEnArea == false){
-                   AtenderEscritor(panelEsperaGeneral,clientesGeneral,0);
-                   escritorEnArea = true;
-                   
-                }
-                else{
-                   Cliente cliente = clientesGeneral.get(0);
-                   clientesGeneral.remove(0);
-                   panelEsperaGeneral.remove(cliente.getLabel());
-                   panelEsperaGeneral.repaint();
-                   posicionEscritorY = ingresarCliente(panelEsperaEscritor,cliente, clientesEscritor, posicionEscritorY);
-                   desplazarCliente(panelEsperaGeneral,clientesGeneral,0);
+                if (contadorLectores == 0 && escritorEnArea == false) {
+                    AtenderEscritor(panelEsperaGeneral, clientesGeneral, 0);
+                    escritorEnArea = true;
+
+                } else {
+                    Cliente cliente = clientesGeneral.get(0);
+                    clientesGeneral.remove(0);
+                    panelEsperaGeneral.remove(cliente.getLabel());
+                    panelEsperaGeneral.repaint();
+                    posicionEscritorY = ingresarCliente(panelEsperaEscritor, cliente, clientesEscritor, posicionEscritorY);
+                    desplazarCliente(panelEsperaGeneral, clientesGeneral, 0);
                 }
             }
-                 
-        }
-        else{
-            JOptionPane.showMessageDialog(null,"No hay clientes para antender en el general","Error",JOptionPane.ERROR_MESSAGE);
+
+        } else {
+            JOptionPane.showMessageDialog(null, "No hay clientes para antender en el general", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_btnAtenderActionPerformed
 
     private void btnAtenderEscritorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtenderEscritorActionPerformed
-        if(clientesEscritor.size()>0){
-            if(contadorLectores == 0 && escritorEnArea == false){
-                AtenderEscritor(panelEsperaEscritor,clientesEscritor,1);
+        if (clientesEscritor.size() > 0) {
+            if (contadorLectores == 0 && escritorEnArea == false) {
+                AtenderEscritor(panelEsperaEscritor, clientesEscritor, 1);
                 escritorEnArea = true;
-            }   
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No hay clientes para antender en la lista de escritores", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        else{
-          JOptionPane.showMessageDialog(null,"No hay clientes para antender en la lista de escritores","Error",JOptionPane.ERROR_MESSAGE);  
-        }
-        
+
     }//GEN-LAST:event_btnAtenderEscritorActionPerformed
 
     /**
@@ -506,8 +501,8 @@ public void desplazarCliente(JPanel panel,ArrayList<Cliente> clientes,int posici
             //dejamos la barra de progreso igual a cero
             despachador.getBarra().setValue(0);
             //si hay mas de un lector se reduce
-            if(contadorLectores!=0){
-                contadorLectores-=1;
+            if (contadorLectores != 0) {
+                contadorLectores -= 1;
             }
             //si entro un escritor se pone en falso
             escritorEnArea = false;
