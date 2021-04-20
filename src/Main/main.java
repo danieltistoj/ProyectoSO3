@@ -8,6 +8,9 @@ package Main;
 import Clases.Cliente;
 import java.util.ArrayList;
 import Clases.*;
+import java.util.concurrent.Semaphore;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -24,6 +27,7 @@ public class main extends javax.swing.JFrame {
     Despachador despachador1, despachador2, despachador3, despachador4, despachador5;
     int posicionGeneralY, posicionEscritorY, contadorLectores = 0;
     boolean lectorEnArea, escritorEnArea;
+    Semaphore mutex = new Semaphore(1, true);
 
     public main() {
         initComponents();
@@ -130,7 +134,7 @@ public class main extends javax.swing.JFrame {
         jLabel1.setText("Fila general");
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Fila de comprar boletos");
+        jLabel2.setText("Fila escritor bloqueado");
 
         panelCaja1.setBackground(new java.awt.Color(204, 204, 204));
         panelCaja1.setPreferredSize(new java.awt.Dimension(178, 129));
@@ -380,28 +384,13 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
         }
 
     }
-
-    private void btnIngresarLectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarLectorActionPerformed
-        Cliente cliente = new Cliente(0);
-        posicionGeneralY = ingresarCliente(panelEsperaGeneral, cliente, clientesGeneral, posicionGeneralY);
-        System.out.println(posicionGeneralY);
-    }//GEN-LAST:event_btnIngresarLectorActionPerformed
-
-    private void btnIngresarEscritorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarEscritorActionPerformed
-        Cliente cliente = new Cliente(1);
-        posicionGeneralY = ingresarCliente(panelEsperaGeneral, cliente, clientesGeneral, posicionGeneralY);
-        System.out.println(posicionGeneralY);
-    }//GEN-LAST:event_btnIngresarEscritorActionPerformed
-
-    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-
-    }//GEN-LAST:event_btnLimpiarActionPerformed
-
-    private void btnAtenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtenderActionPerformed
-        //atender a clientes del panel general 
+    public void condiciondeAtender(){
+        
+         //atender a clientes del panel general 
         if (clientesGeneral.size() > 0) {
             if (clientesGeneral.get(0).getTipoCliente() == 0) {
                 if (escritorEnArea == false) {
+                    
                     AtenderEscritor(panelEsperaGeneral, clientesGeneral, 0);
                     contadorLectores++;
                 }
@@ -422,8 +411,43 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
             }
 
         } else {
-            JOptionPane.showMessageDialog(null, "No hay clientes para antender en el general", "Error", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null, "No hay clientes para antender en el general", "Error", JOptionPane.ERROR_MESSAGE);
         }
+        
+    }
+
+    private void btnIngresarLectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarLectorActionPerformed
+        Cliente cliente = new Cliente(0);
+        try {
+            mutex.acquire();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        posicionGeneralY = ingresarCliente(panelEsperaGeneral, cliente, clientesGeneral, posicionGeneralY);
+        mutex.release();
+        condiciondeAtender();
+        System.out.println(posicionGeneralY);
+    }//GEN-LAST:event_btnIngresarLectorActionPerformed
+
+    private void btnIngresarEscritorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarEscritorActionPerformed
+        Cliente cliente = new Cliente(1);
+        try {
+            mutex.acquire();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        posicionGeneralY = ingresarCliente(panelEsperaGeneral, cliente, clientesGeneral, posicionGeneralY);
+        mutex.release();
+        condiciondeAtender();
+        System.out.println(posicionGeneralY);
+    }//GEN-LAST:event_btnIngresarEscritorActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnAtenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtenderActionPerformed
+       
 
     }//GEN-LAST:event_btnAtenderActionPerformed
 
@@ -506,6 +530,7 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
             }
             //si entro un escritor se pone en falso
             escritorEnArea = false;
+            condiciondeAtender();
 
         }
 
