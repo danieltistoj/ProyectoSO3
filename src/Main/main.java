@@ -431,18 +431,26 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
                   lo que va a hacer es mandarlo a bloqueado, lo cual seria lo cual seria 
                   el panel de la derecha, el de fila escritor bloqueado
                  */ else {
-                    //el cliete en cuestio se guarda en otra variable
-                    Cliente cliente = clientesGeneral.get(0);
-                    //se remueve el cliente del array list actual 
-                    clientesGeneral.remove(0);
-                    //se remueve del panel general, el panel de la izquiera 
-                    panelEsperaGeneral.remove(cliente.getLabel());
-                    //se repinta el panel para actualizarlo
-                    panelEsperaGeneral.repaint();
-                    //se inserta el cliente en el panel de escritor bloqueado
-                    posicionEscritorY = ingresarCliente(panelEsperaEscritor, cliente, clientesEscritor, posicionEscritorY);
-                    //se hace el desplazamiento del panel general
-                    desplazarCliente(panelEsperaGeneral, clientesGeneral, 0);
+                    try {
+                        mutex.acquire();
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    if (clientesEscritor.size() < 4) {
+                        //el cliete en cuestio se guarda en otra variable
+                        Cliente cliente = clientesGeneral.get(0);
+                        //se remueve el cliente del array list actual 
+                        clientesGeneral.remove(0);
+                        //se remueve del panel general, el panel de la izquiera 
+                        panelEsperaGeneral.remove(cliente.getLabel());
+                        //se repinta el panel para actualizarlo
+                        panelEsperaGeneral.repaint();
+                        //se inserta el cliente en el panel de escritor bloqueado
+                        posicionEscritorY = ingresarCliente(panelEsperaEscritor, cliente, clientesEscritor, posicionEscritorY);
+                        //se hace el desplazamiento del panel general
+                        desplazarCliente(panelEsperaGeneral, clientesGeneral, 0);
+                    }
+                    mutex.release();
                 }
             }
         } else {
