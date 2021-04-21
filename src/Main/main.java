@@ -346,15 +346,15 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
     public int ingresarCliente(JPanel panel, Cliente cliente, ArrayList<Cliente> clientes, int posicionY) {
         /*Se verifica que el array es menor a cuatro, 
           por que es lo que cabe en el panel general, y en el panel de bloqueados
-        */
+         */
         if (clientes.size() < 4) {
-         /*Se modifica la posicion del label del cliente*/
+            /*Se modifica la posicion del label del cliente*/
             cliente.getLabel().setBounds(0, posicionY, 178, 129);
-         //se agrega el label del cliente al panel 
+            //se agrega el label del cliente al panel 
             panel.add(cliente.getLabel());
-         //se actuliza el panel para mostrar el label del cliente 
+            //se actuliza el panel para mostrar el label del cliente 
             panel.repaint();
-         //se incrementa la posicion en Y, la cual s
+            //se incrementa la posicion en Y, la cual s
             posicionY += 129;
             clientes.add(cliente);
         } else {
@@ -392,37 +392,45 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
         }
 
     }
+
     //Previo a atender clientes
-    public void condiciondeAtender(){
-        
-         //atender a clientes del panel general 
+    public void condiciondeAtender() {
+        //atender a clientes del panel general 
+        if (clientesEscritor.size() > 0) {
+            if (contadorLectores == 0 && escritorEnArea == false) {
+                //atiende al escritor, lo pone en el area critica 
+                AtenderEscritor(panelEsperaEscritor, clientesEscritor, 1);
+                /*pone en verdadera la bandera de escritor en area critica
+                     esto indica que hay un escritor en el area critica y no puede acceder 
+                     ni un lector, ni un escritor 
+                 */
+                escritorEnArea = true;
+            }
+        }
         if (clientesGeneral.size() > 0) {//antes de atender debe de ver que existan clientes 
             if (clientesGeneral.get(0).getTipoCliente() == 0) { // si es un lector 
                 if (escritorEnArea == false) {
-                    
+
                     AtenderEscritor(panelEsperaGeneral, clientesGeneral, 0);//atiende al lector
-                    System.out.println("Mas contador: "+contadorLectores);
+                    System.out.println("Mas contador: " + contadorLectores);
                 }
             } else if (clientesGeneral.get(0).getTipoCliente() == 1) {//si es un escritor 
                 System.out.println("entro");
                 /*para atender a un escritor debe de ver que en el area critica 
                   no hayan ni lectores ni escritores
-                */
-                if (contadorLectores == 0 && escritorEnArea == false) { 
+                 */
+                if (contadorLectores == 0 && escritorEnArea == false) {
                     //atiende al escritor, lo pone en el area critica 
                     AtenderEscritor(panelEsperaGeneral, clientesGeneral, 0);
                     /*pone en verdadera la bandera de escritor en area critica
                      esto indica que hay un escritor en el area critica y no puede acceder 
                      ni un lector, ni un escritor 
-                    */
+                     */
                     escritorEnArea = true;
-
-                } 
-                /*Este else es si existe algun proceso en el area critica
+                } /*Este else es si existe algun proceso en el area critica
                   lo que va a hacer es mandarlo a bloqueado, lo cual seria lo cual seria 
                   el panel de la derecha, el de fila escritor bloqueado
-                */
-                else {
+                 */ else {
                     //el cliete en cuestio se guarda en otra variable
                     Cliente cliente = clientesGeneral.get(0);
                     //se remueve el cliente del array list actual 
@@ -437,13 +445,12 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
                     desplazarCliente(panelEsperaGeneral, clientesGeneral, 0);
                 }
             }
-
         } else {
             //JOptionPane.showMessageDialog(null, "No hay clientes para antender en el general", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        
+
     }
-    
+
     private void btnIngresarLectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarLectorActionPerformed
         Cliente cliente = new Cliente(0);
         try {
@@ -475,7 +482,7 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnAtenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtenderActionPerformed
-       
+
 
     }//GEN-LAST:event_btnAtenderActionPerformed
 
@@ -554,13 +561,12 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
             despachador.getBarra().setValue(0);
             //si hay mas de un lector se reduce
             if (contadorLectores > 0) {
-                contadorLectores --;
+                contadorLectores--;
             }
-            System.out.println("Menos contador: "+contadorLectores);
+            System.out.println("Menos contador: " + contadorLectores);
             //si entro un escritor se pone en falso
             escritorEnArea = false;
             condiciondeAtender();
-
         }
 
     }
