@@ -28,6 +28,7 @@ public class main extends javax.swing.JFrame {
     int posicionGeneralY, posicionEscritorY, contadorLectores = 0;
     boolean lectorEnArea, escritorEnArea;
     Semaphore mutex = new Semaphore(1, true);
+    AtenderLector recorre = new AtenderLector(true);
 
     public main() {
         initComponents();
@@ -399,18 +400,20 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
         if (clientesEscritor.size() > 0) {
             if (contadorLectores == 0 && escritorEnArea == false) {
                 //atiende al escritor, lo pone en el area critica 
+                recorre.seguir = false;
                 AtenderEscritor(panelEsperaEscritor, clientesEscritor, 1);
                 /*pone en verdadera la bandera de escritor en area critica
                      esto indica que hay un escritor en el area critica y no puede acceder 
                      ni un lector, ni un escritor 
                  */
+
+                recorre.seguir = true;
                 escritorEnArea = true;
             }
         }
         if (clientesGeneral.size() > 0) {//antes de atender debe de ver que existan clientes 
             if (clientesGeneral.get(0).getTipoCliente() == 0) { // si es un lector 
                 if (escritorEnArea == false) {
-
                     AtenderEscritor(panelEsperaGeneral, clientesGeneral, 0);//atiende al lector
                     System.out.println("Mas contador: " + contadorLectores);
                 }
@@ -468,7 +471,8 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
         }
         posicionGeneralY = ingresarCliente(panelEsperaGeneral, cliente, clientesGeneral, posicionGeneralY);
         mutex.release();
-        condiciondeAtender();
+        recorre = new AtenderLector(true);
+        recorre.start();
         System.out.println(posicionGeneralY);
     }//GEN-LAST:event_btnIngresarLectorActionPerformed
 
@@ -481,7 +485,6 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
         }
         posicionGeneralY = ingresarCliente(panelEsperaGeneral, cliente, clientesGeneral, posicionGeneralY);
         mutex.release();
-        condiciondeAtender();
         System.out.println(posicionGeneralY);
     }//GEN-LAST:event_btnIngresarEscritorActionPerformed
 
@@ -574,9 +577,41 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
             System.out.println("Menos contador: " + contadorLectores);
             //si entro un escritor se pone en falso
             escritorEnArea = false;
-            condiciondeAtender();
+        }
+    }
+
+    public class AtenderLector extends Thread {
+
+        boolean seguir;
+
+        public AtenderLector(boolean seg) {
+            this.seguir = seg;
         }
 
+        @Override
+
+        public void run() {
+            int cont = 1;
+            while (seguir) {
+                System.out.println("CICLO " + cont);
+                for (Despachador despachador : despachadores) {
+                    if (despachador.getEstado() == 0) {
+                        condiciondeAtender();
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                cont++;
+            }
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
