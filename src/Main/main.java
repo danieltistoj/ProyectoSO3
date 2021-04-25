@@ -28,7 +28,7 @@ public class main extends javax.swing.JFrame {
     int posicionGeneralY, posicionEscritorY, contadorLectores = 0;
     boolean lectorEnArea, escritorEnArea;
     Semaphore mutex = new Semaphore(1, true);
-    AtenderLector recorre = new AtenderLector(true);
+//    AtenderLector recorre = new AtenderLector(true);
 
     public main() {
         initComponents();
@@ -75,14 +75,12 @@ public class main extends javax.swing.JFrame {
         panelCaja4 = new javax.swing.JPanel();
         panelCaja3 = new javax.swing.JPanel();
         panelCaja2 = new javax.swing.JPanel();
-        btnLimpiar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         barraProgreso1 = new javax.swing.JProgressBar();
         barraProgreso2 = new javax.swing.JProgressBar();
         barraProgreso3 = new javax.swing.JProgressBar();
         barraProgreso4 = new javax.swing.JProgressBar();
         barraProgreso5 = new javax.swing.JProgressBar();
-        btnAtender = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -206,23 +204,9 @@ public class main extends javax.swing.JFrame {
             .addGap(0, 129, Short.MAX_VALUE)
         );
 
-        btnLimpiar.setText("Limpiar Lugares");
-        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLimpiarActionPerformed(evt);
-            }
-        });
-
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Despacho");
-
-        btnAtender.setText("Atender General");
-        btnAtender.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAtenderActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -255,15 +239,9 @@ public class main extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(panelEsperaGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(98, 98, 98)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btnAtender, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(50, 50, 50)
-                                        .addComponent(btnLimpiar))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btnIngresarLector)
-                                        .addGap(59, 59, 59)
-                                        .addComponent(btnIngresarEscritor)))))
+                                .addComponent(btnIngresarLector)
+                                .addGap(59, 59, 59)
+                                .addComponent(btnIngresarEscritor)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(barraProgreso5, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -304,11 +282,7 @@ public class main extends javax.swing.JFrame {
                         .addGap(138, 138, 138)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnIngresarLector)
-                            .addComponent(btnIngresarEscritor))
-                        .addGap(26, 26, 26)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnAtender, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnLimpiar))))
+                            .addComponent(btnIngresarEscritor))))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -389,14 +363,13 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
         if (clientesEscritor.size() > 0) {
             if (contadorLectores == 0 && escritorEnArea == false) {
                 //atiende al escritor, lo pone en el area critica 
-                recorre.seguir = false;
+
                 AtenderEscritor(panelEsperaEscritor, clientesEscritor, 1);
                 /*pone en verdadera la bandera de escritor en area critica
                      esto indica que hay un escritor en el area critica y no puede acceder 
                      ni un lector, ni un escritor 
                  */
 
-                recorre.seguir = true;
                 escritorEnArea = true;
             }
         }
@@ -452,7 +425,7 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
     }
 
     private void btnIngresarLectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarLectorActionPerformed
-        Cliente cliente = new Cliente(0);
+     Cliente cliente = new Cliente(0);
         try {
             mutex.acquire();
         } catch (InterruptedException ex) {
@@ -460,8 +433,7 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
         }
         posicionGeneralY = ingresarCliente(panelEsperaGeneral, cliente, clientesGeneral, posicionGeneralY);
         mutex.release();
-        recorre = new AtenderLector(true);
-        recorre.start();
+        condiciondeAtender();
         System.out.println(posicionGeneralY);
     }//GEN-LAST:event_btnIngresarLectorActionPerformed
 
@@ -476,15 +448,6 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
         mutex.release();
         System.out.println(posicionGeneralY);
     }//GEN-LAST:event_btnIngresarEscritorActionPerformed
-
-    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-
-    }//GEN-LAST:event_btnLimpiarActionPerformed
-
-    private void btnAtenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtenderActionPerformed
-
-
-    }//GEN-LAST:event_btnAtenderActionPerformed
 
     /**
      * @param args the command line arguments
@@ -551,13 +514,27 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
             if (contadorLectores > 0) {
                 contadorLectores--;
             }
+            if (escritorEnArea) {
+                if (clientesEscritor.size() == 0) {
+                    for (Despachador despachador : despachadores) {
+                        if (despachador.getEstado() == 0) {
+                            if(clientesGeneral.size()>0)
+                            {
+                                 escritorEnArea = false;
+                                condiciondeAtender();
+                            }
+                        }
+                    }
+                }
+            }
             System.out.println("Menos contador: " + contadorLectores);
             //si entro un escritor se pone en falso
             escritorEnArea = false;
+            condiciondeAtender();
         }
     }
 
-    public class AtenderLector extends Thread {
+    /*public class AtenderLector extends Thread {
 
         boolean seguir;
 
@@ -589,7 +566,11 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
                 cont++;
             }
         }
-    }
+    }*/
+    
+    
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JProgressBar barraProgreso1;
@@ -597,10 +578,8 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
     private javax.swing.JProgressBar barraProgreso3;
     private javax.swing.JProgressBar barraProgreso4;
     private javax.swing.JProgressBar barraProgreso5;
-    private javax.swing.JButton btnAtender;
     private javax.swing.JButton btnIngresarEscritor;
     private javax.swing.JButton btnIngresarLector;
-    private javax.swing.JButton btnLimpiar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
