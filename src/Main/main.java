@@ -330,7 +330,13 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
     public void AtenderEscritor(JPanel panel, ArrayList<Cliente> clientes, int posicionY) {
         //recorremos el array de despachadores buscando uno que este libre con estado 0
         for (Despachador despachador : despachadores) {
+
             if (despachador.getEstado() == 0) {//verificamos el estado 
+                try {
+                    mutex.acquire();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 //removemos del panel de espera general el cliente que este en la primera posicion
                 panel.remove(clientes.get(0).getLabel());
                 //volvemos a pintar el panel
@@ -350,6 +356,7 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
                 AtenderCliente atender = new AtenderCliente(despachador);
                 atender.start();
                 contadorLectores++;//aumenta el numero de lectores en el area critica
+                mutex.release();
                 break;
             }
 
@@ -396,12 +403,13 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
                   lo que va a hacer es mandarlo a bloqueado, lo cual seria lo cual seria 
                   el panel de la derecha, el de fila escritor bloqueado
                  */ else {
-                    try {
-                        mutex.acquire();
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+
                     if (clientesEscritor.size() < 4) {
+                        try {
+                            mutex.acquire();
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                         //el cliete en cuestio se guarda en otra variable
                         Cliente cliente = clientesGeneral.get(0);
                         //se remueve el cliente del array list actual 
@@ -414,8 +422,9 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
                         posicionEscritorY = ingresarCliente(panelEsperaEscritor, cliente, clientesEscritor, posicionEscritorY);
                         //se hace el desplazamiento del panel general
                         desplazarCliente(panelEsperaGeneral, clientesGeneral, 0);
+                        mutex.release();
                     }
-                    mutex.release();
+
                 }
             }
         } else {
@@ -425,7 +434,7 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
     }
 
     private void btnIngresarLectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarLectorActionPerformed
-     Cliente cliente = new Cliente(0);
+        Cliente cliente = new Cliente(0);
         try {
             mutex.acquire();
         } catch (InterruptedException ex) {
@@ -502,6 +511,11 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
                 }
                 despachador.getBarra().setValue(i);
             }
+            try {
+                mutex.acquire();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+            }
             //Eliminamos el label del cliente del panel del despachador
             despachador.getPanel().remove(despachador.getCliente().getLabel());
             //repintamos el panele del despachador
@@ -511,6 +525,7 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
             //dejamos la barra de progreso igual a cero
             despachador.getBarra().setValue(0);
             //si hay mas de un lector se reduce
+            mutex.release();
             if (contadorLectores > 0) {
                 contadorLectores--;
             }
@@ -518,15 +533,15 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
                 if (clientesEscritor.size() == 0) {
                     for (Despachador despachador : despachadores) {
                         if (despachador.getEstado() == 0) {
-                            if(clientesGeneral.size()>0)
-                            {
-                                 escritorEnArea = false;
+                            if (clientesGeneral.size() > 0) {
+                                escritorEnArea = false;
                                 condiciondeAtender();
                             }
                         }
                     }
                 }
             }
+            
             System.out.println("Menos contador: " + contadorLectores);
             //si entro un escritor se pone en falso
             escritorEnArea = false;
@@ -567,10 +582,6 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
             }
         }
     }*/
-    
-    
-    
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JProgressBar barraProgreso1;
