@@ -63,12 +63,10 @@ public class main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelEsperaEscritor = new javax.swing.JPanel();
         panelEsperaGeneral = new javax.swing.JPanel();
         btnIngresarLector = new javax.swing.JButton();
         btnIngresarEscritor = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         panelCaja1 = new javax.swing.JPanel();
         panelCaja5 = new javax.swing.JPanel();
         panelCaja4 = new javax.swing.JPanel();
@@ -81,25 +79,8 @@ public class main extends javax.swing.JFrame {
         barraProgreso3 = new javax.swing.JProgressBar();
         barraProgreso4 = new javax.swing.JProgressBar();
         barraProgreso5 = new javax.swing.JProgressBar();
-        btnAtender = new javax.swing.JButton();
-        btnAtenderEscritor = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        panelEsperaEscritor.setBackground(new java.awt.Color(255, 255, 255));
-        panelEsperaEscritor.setPreferredSize(new java.awt.Dimension(178, 516));
-        panelEsperaEscritor.setRequestFocusEnabled(false);
-
-        javax.swing.GroupLayout panelEsperaEscritorLayout = new javax.swing.GroupLayout(panelEsperaEscritor);
-        panelEsperaEscritor.setLayout(panelEsperaEscritorLayout);
-        panelEsperaEscritorLayout.setHorizontalGroup(
-            panelEsperaEscritorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 178, Short.MAX_VALUE)
-        );
-        panelEsperaEscritorLayout.setVerticalGroup(
-            panelEsperaEscritorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 516, Short.MAX_VALUE)
-        );
 
         panelEsperaGeneral.setBackground(new java.awt.Color(255, 255, 255));
         panelEsperaGeneral.setPreferredSize(new java.awt.Dimension(178, 516));
@@ -132,9 +113,6 @@ public class main extends javax.swing.JFrame {
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Fila general");
-
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Fila escritor bloqueado");
 
         panelCaja1.setBackground(new java.awt.Color(204, 204, 204));
         panelCaja1.setPreferredSize(new java.awt.Dimension(178, 129));
@@ -217,20 +195,6 @@ public class main extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Despacho");
 
-        btnAtender.setText("Atender General");
-        btnAtender.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAtenderActionPerformed(evt);
-            }
-        });
-
-        btnAtenderEscritor.setText("Atender Escritor");
-        btnAtenderEscritor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAtenderEscritorActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -263,21 +227,17 @@ public class main extends javax.swing.JFrame {
                                 .addComponent(panelEsperaGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(90, 90, 90)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnLimpiar)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(btnIngresarLector)
-                                            .addComponent(btnAtender, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(50, 50, 50)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(btnIngresarEscritor)
-                                            .addComponent(btnAtenderEscritor, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                        .addComponent(btnIngresarLector)
+                                        .addGap(82, 82, 82)
+                                        .addComponent(btnIngresarEscritor))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(122, 122, 122)
+                                        .addComponent(btnLimpiar)))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(barraProgreso5, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(panelCaja5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(panelEsperaEscritor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(panelCaja5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(51, 51, 51))
         );
         layout.setVerticalGroup(
@@ -305,24 +265,16 @@ public class main extends javax.swing.JFrame {
                                 .addComponent(panelCaja1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(panelCaja5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(37, 37, 37)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(panelEsperaEscritor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(panelEsperaGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(panelEsperaGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnIngresarLector)
                             .addComponent(btnIngresarEscritor))
-                        .addGap(36, 36, 36)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnAtender, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAtenderEscritor))
-                        .addGap(35, 35, 35)
+                        .addGap(52, 52, 52)
                         .addComponent(btnLimpiar)
-                        .addGap(40, 40, 40)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
+                        .addGap(91, 91, 91)))
+                .addComponent(jLabel1)
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
@@ -346,15 +298,15 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
     public int ingresarCliente(JPanel panel, Cliente cliente, ArrayList<Cliente> clientes, int posicionY) {
         /*Se verifica que el array es menor a cuatro, 
           por que es lo que cabe en el panel general, y en el panel de bloqueados
-        */
+         */
         if (clientes.size() < 4) {
-         /*Se modifica la posicion del label del cliente*/
+            /*Se modifica la posicion del label del cliente*/
             cliente.getLabel().setBounds(0, posicionY, 178, 129);
-         //se agrega el label del cliente al panel 
+            //se agrega el label del cliente al panel 
             panel.add(cliente.getLabel());
-         //se actuliza el panel para mostrar el label del cliente 
+            //se actuliza el panel para mostrar el label del cliente 
             panel.repaint();
-         //se incrementa la posicion en Y, la cual s
+            //se incrementa la posicion en Y, la cual s
             posicionY += 129;
             clientes.add(cliente);
         } else {
@@ -368,9 +320,15 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
         for (Despachador despachador : despachadores) {
             if (despachador.getEstado() == 0) {//verificamos el estado 
                 //removemos del panel de espera general el cliente que este en la primera posicion
+                try {
+                    mutex.acquire();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 panel.remove(clientes.get(0).getLabel());
                 //volvemos a pintar el panel
                 panel.repaint();
+                mutex.release();
                 //le ingresamos al despachador el cliente 
                 despachador.setCliente(clientes.get(0));
                 //agragamos el label del cliente al panel del despachador 
@@ -378,9 +336,15 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
                 //volvemos a pintar el panel del despachador 
                 despachador.getPanel().repaint();
                 //removemos de la lista de clientes el primer cliente 
+                try {
+                    mutex.acquire();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 clientes.remove(0);
                 //desplazamos los clientes una posicion
                 desplazarCliente(panel, clientes, posicionY);
+                mutex.release();
                 //pones el estado del despachador en 1, lo que signfica que ahora esta ocupado
                 despachador.setEstado(1);
                 AtenderCliente atender = new AtenderCliente(despachador);
@@ -392,58 +356,42 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
         }
 
     }
+
     //Previo a atender clientes
-    public void condiciondeAtender(){
-        
-         //atender a clientes del panel general 
+    public void condiciondeAtender() {
+
         if (clientesGeneral.size() > 0) {//antes de atender debe de ver que existan clientes 
             if (clientesGeneral.get(0).getTipoCliente() == 0) { // si es un lector 
                 if (escritorEnArea == false) {
-                    
+
                     AtenderEscritor(panelEsperaGeneral, clientesGeneral, 0);//atiende al lector
-                    System.out.println("Mas contador: "+contadorLectores);
+                    System.out.println("Mas contador: " + contadorLectores);
                 }
             } else if (clientesGeneral.get(0).getTipoCliente() == 1) {//si es un escritor 
                 System.out.println("entro");
                 /*para atender a un escritor debe de ver que en el area critica 
                   no hayan ni lectores ni escritores
-                */
-                if (contadorLectores == 0 && escritorEnArea == false) { 
+                 */
+                if (contadorLectores == 0 && escritorEnArea == false) {
                     //atiende al escritor, lo pone en el area critica 
                     AtenderEscritor(panelEsperaGeneral, clientesGeneral, 0);
                     /*pone en verdadera la bandera de escritor en area critica
                      esto indica que hay un escritor en el area critica y no puede acceder 
                      ni un lector, ni un escritor 
-                    */
+                     */
                     escritorEnArea = true;
-
-                } 
+                }
                 /*Este else es si existe algun proceso en el area critica
                   lo que va a hacer es mandarlo a bloqueado, lo cual seria lo cual seria 
                   el panel de la derecha, el de fila escritor bloqueado
-                */
-                else {
-                    //el cliete en cuestio se guarda en otra variable
-                    Cliente cliente = clientesGeneral.get(0);
-                    //se remueve el cliente del array list actual 
-                    clientesGeneral.remove(0);
-                    //se remueve del panel general, el panel de la izquiera 
-                    panelEsperaGeneral.remove(cliente.getLabel());
-                    //se repinta el panel para actualizarlo
-                    panelEsperaGeneral.repaint();
-                    //se inserta el cliente en el panel de escritor bloqueado
-                    posicionEscritorY = ingresarCliente(panelEsperaEscritor, cliente, clientesEscritor, posicionEscritorY);
-                    //se hace el desplazamiento del panel general
-                    desplazarCliente(panelEsperaGeneral, clientesGeneral, 0);
-                }
+                 */
             }
-
         } else {
             //JOptionPane.showMessageDialog(null, "No hay clientes para antender en el general", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        
+
     }
-    
+
     private void btnIngresarLectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarLectorActionPerformed
         Cliente cliente = new Cliente(0);
         try {
@@ -473,23 +421,6 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
 
     }//GEN-LAST:event_btnLimpiarActionPerformed
-
-    private void btnAtenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtenderActionPerformed
-       
-
-    }//GEN-LAST:event_btnAtenderActionPerformed
-
-    private void btnAtenderEscritorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtenderEscritorActionPerformed
-        if (clientesEscritor.size() > 0) {
-            if (contadorLectores == 0 && escritorEnArea == false) {
-                AtenderEscritor(panelEsperaEscritor, clientesEscritor, 1);
-                escritorEnArea = true;
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "No hay clientes para antender en la lista de escritores", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-    }//GEN-LAST:event_btnAtenderEscritorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -554,9 +485,23 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
             despachador.getBarra().setValue(0);
             //si hay mas de un lector se reduce
             if (contadorLectores > 0) {
-                contadorLectores --;
+                contadorLectores--;
             }
-            System.out.println("Menos contador: "+contadorLectores);
+            if (escritorEnArea) {
+                if (clientesEscritor.size() == 0) {
+                    for (Despachador despachador : despachadores) {
+                        if (despachador.getEstado() == 0) {
+                            if (clientesGeneral.size() > 0) {
+                                escritorEnArea = false;
+                                if (clientesGeneral.get(0).getTipoCliente() == 0) {
+                                    condiciondeAtender();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            System.out.println("Menos contador: " + contadorLectores);
             //si entro un escritor se pone en falso
             escritorEnArea = false;
             condiciondeAtender();
@@ -571,20 +516,16 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
     private javax.swing.JProgressBar barraProgreso3;
     private javax.swing.JProgressBar barraProgreso4;
     private javax.swing.JProgressBar barraProgreso5;
-    private javax.swing.JButton btnAtender;
-    private javax.swing.JToggleButton btnAtenderEscritor;
     private javax.swing.JButton btnIngresarEscritor;
     private javax.swing.JButton btnIngresarLector;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel panelCaja1;
     private javax.swing.JPanel panelCaja2;
     private javax.swing.JPanel panelCaja3;
     private javax.swing.JPanel panelCaja4;
     private javax.swing.JPanel panelCaja5;
-    private javax.swing.JPanel panelEsperaEscritor;
     private javax.swing.JPanel panelEsperaGeneral;
     // End of variables declaration//GEN-END:variables
 }
