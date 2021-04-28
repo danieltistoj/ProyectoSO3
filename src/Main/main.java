@@ -41,6 +41,8 @@ public class main extends javax.swing.JFrame {
         //lectorEnArea = false;
         escritorEnArea = false;
 
+        
+        
         despachador1 = new Despachador(panelCaja1, barraProgreso1);
         despachador2 = new Despachador(panelCaja2, barraProgreso2);
         despachador3 = new Despachador(panelCaja3, barraProgreso3);
@@ -68,6 +70,7 @@ public class main extends javax.swing.JFrame {
         btnIngresarEscritor = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         panelCaja1 = new javax.swing.JPanel();
+        jLabelLector1 = new javax.swing.JLabel();
         panelCaja5 = new javax.swing.JPanel();
         panelCaja4 = new javax.swing.JPanel();
         panelCaja3 = new javax.swing.JPanel();
@@ -121,11 +124,17 @@ public class main extends javax.swing.JFrame {
         panelCaja1.setLayout(panelCaja1Layout);
         panelCaja1Layout.setHorizontalGroup(
             panelCaja1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 178, Short.MAX_VALUE)
+            .addGroup(panelCaja1Layout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(jLabelLector1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(43, Short.MAX_VALUE))
         );
         panelCaja1Layout.setVerticalGroup(
             panelCaja1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 129, Short.MAX_VALUE)
+            .addGroup(panelCaja1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jLabelLector1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         panelCaja5.setBackground(new java.awt.Color(204, 204, 204));
@@ -321,12 +330,14 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
             if (despachador.getEstado() == 0) {//verificamos el estado 
                 //removemos del panel de espera general el cliente que este en la primera posicion
                 try {
+                     //rsscalelabel.RSScaleLabel.setScaleLabel(jLabelLector1, "src/img/lector.png");
                     mutex.acquire();
                 } catch (InterruptedException ex) {
                     Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 panel.remove(clientes.get(0).getLabel());
                 //volvemos a pintar el panel
+                
                 panel.repaint();
                 mutex.release();
                 //le ingresamos al despachador el cliente 
@@ -354,6 +365,7 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
             }
 
         }
+        //rsscalelabel.RSScaleLabel.setScaleLabel(jLabelLector1, "");
 
     }
 
@@ -395,13 +407,16 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
     private void btnIngresarLectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarLectorActionPerformed
         Cliente cliente = new Cliente(0);
         try {
+            
             mutex.acquire();
+           // rsscalelabel.RSScaleLabel.setScaleLabel(jLabelLector1, "src/img/lector.png");
         } catch (InterruptedException ex) {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
         }
         posicionGeneralY = ingresarCliente(panelEsperaGeneral, cliente, clientesGeneral, posicionGeneralY);
         mutex.release();
         condiciondeAtender();
+        
         System.out.println(posicionGeneralY);
     }//GEN-LAST:event_btnIngresarLectorActionPerformed
 
@@ -420,6 +435,7 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
 
+        rsscalelabel.RSScaleLabel.setScaleLabel(jLabelLector1, "");
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     /**
@@ -521,6 +537,7 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
+    public javax.swing.JLabel jLabelLector1;
     private javax.swing.JPanel panelCaja1;
     private javax.swing.JPanel panelCaja2;
     private javax.swing.JPanel panelCaja3;
@@ -528,4 +545,6 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
     private javax.swing.JPanel panelCaja5;
     private javax.swing.JPanel panelEsperaGeneral;
     // End of variables declaration//GEN-END:variables
+
 }
+
