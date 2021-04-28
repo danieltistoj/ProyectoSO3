@@ -1,5 +1,3 @@
 # ProyectoSO3
-
-Repositorio de una simulacion de ejercicio de lectores y escritores multithreading en java swing.
-
+sincronizacion para el problema de lectores y escritores
 ![](https://github.com/elmergustavo/capturas-de-codigo/blob/master/proyecto.gif)
