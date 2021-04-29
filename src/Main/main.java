@@ -8,6 +8,10 @@ package Main;
 import Clases.Cliente;
 import java.util.ArrayList;
 import Clases.*;
+import java.awt.Dimension;
+import java.util.concurrent.Semaphore;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -24,19 +28,24 @@ public class main extends javax.swing.JFrame {
     Despachador despachador1, despachador2, despachador3, despachador4, despachador5;
     int posicionGeneralY, posicionEscritorY, contadorLectores = 0;
     boolean lectorEnArea, escritorEnArea;
+    Semaphore mutex = new Semaphore(1, true);
 
     public main() {
         initComponents();
         setVisible(true);
         setLocationRelativeTo(null);
+        this.setSize(new Dimension(1069, 676));
         clientesGeneral = new ArrayList<Cliente>();
         clientesEscritor = new ArrayList<>();
         despachadores = new ArrayList<Despachador>();
         posicionGeneralY = 0;
         posicionEscritorY = 0;
-        lectorEnArea = false;
+        //lectorEnArea = false;
         escritorEnArea = false;
 
+         rsscalelabel.RSScaleLabel.setScaleLabel(jLabelLectores, "src/img/lector2.png");
+         rsscalelabel.RSScaleLabel.setScaleLabel(jLabelEscritores, "src/img/escritor1.png");
+        
         despachador1 = new Despachador(panelCaja1, barraProgreso1);
         despachador2 = new Despachador(panelCaja2, barraProgreso2);
         despachador3 = new Despachador(panelCaja3, barraProgreso3);
@@ -59,80 +68,36 @@ public class main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelEsperaEscritor = new javax.swing.JPanel();
-        panelEsperaGeneral = new javax.swing.JPanel();
-        btnIngresarLector = new javax.swing.JButton();
-        btnIngresarEscritor = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        panelCaja1 = new javax.swing.JPanel();
-        panelCaja5 = new javax.swing.JPanel();
-        panelCaja4 = new javax.swing.JPanel();
-        panelCaja3 = new javax.swing.JPanel();
-        panelCaja2 = new javax.swing.JPanel();
-        btnLimpiar = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         barraProgreso1 = new javax.swing.JProgressBar();
+        panelCaja1 = new javax.swing.JPanel();
         barraProgreso2 = new javax.swing.JProgressBar();
+        panelCaja2 = new javax.swing.JPanel();
+        panelCaja3 = new javax.swing.JPanel();
         barraProgreso3 = new javax.swing.JProgressBar();
+        panelCaja4 = new javax.swing.JPanel();
         barraProgreso4 = new javax.swing.JProgressBar();
+        panelCaja5 = new javax.swing.JPanel();
         barraProgreso5 = new javax.swing.JProgressBar();
-        btnAtender = new javax.swing.JButton();
-        btnAtenderEscritor = new javax.swing.JToggleButton();
+        jLabelLectores = new javax.swing.JLabel();
+        panelEsperaGeneral = new javax.swing.JPanel();
+        jLabelEscritores = new javax.swing.JLabel();
+        btnIngresarEscritor = new javax.swing.JButton();
+        btnIngresarLector = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        panelEsperaEscritor.setBackground(new java.awt.Color(255, 255, 255));
-        panelEsperaEscritor.setPreferredSize(new java.awt.Dimension(178, 516));
-        panelEsperaEscritor.setRequestFocusEnabled(false);
+        jPanel1.setBackground(new java.awt.Color(214, 224, 230));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout panelEsperaEscritorLayout = new javax.swing.GroupLayout(panelEsperaEscritor);
-        panelEsperaEscritor.setLayout(panelEsperaEscritorLayout);
-        panelEsperaEscritorLayout.setHorizontalGroup(
-            panelEsperaEscritorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 178, Short.MAX_VALUE)
-        );
-        panelEsperaEscritorLayout.setVerticalGroup(
-            panelEsperaEscritorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 516, Short.MAX_VALUE)
-        );
+        jLabel3.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("REGIÓN CRÍTICA");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 903, 25));
+        jPanel1.add(barraProgreso1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, 178, 18));
 
-        panelEsperaGeneral.setBackground(new java.awt.Color(255, 255, 255));
-        panelEsperaGeneral.setPreferredSize(new java.awt.Dimension(178, 516));
-        panelEsperaGeneral.setRequestFocusEnabled(false);
-
-        javax.swing.GroupLayout panelEsperaGeneralLayout = new javax.swing.GroupLayout(panelEsperaGeneral);
-        panelEsperaGeneral.setLayout(panelEsperaGeneralLayout);
-        panelEsperaGeneralLayout.setHorizontalGroup(
-            panelEsperaGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 178, Short.MAX_VALUE)
-        );
-        panelEsperaGeneralLayout.setVerticalGroup(
-            panelEsperaGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 516, Short.MAX_VALUE)
-        );
-
-        btnIngresarLector.setText("Ingresar Lectores");
-        btnIngresarLector.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIngresarLectorActionPerformed(evt);
-            }
-        });
-
-        btnIngresarEscritor.setText("Ingresar Escritores");
-        btnIngresarEscritor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIngresarEscritorActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Fila general");
-
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Fila de comprar boletos");
-
-        panelCaja1.setBackground(new java.awt.Color(204, 204, 204));
+        panelCaja1.setBackground(new java.awt.Color(214, 224, 230));
         panelCaja1.setPreferredSize(new java.awt.Dimension(178, 129));
 
         javax.swing.GroupLayout panelCaja1Layout = new javax.swing.GroupLayout(panelCaja1);
@@ -146,49 +111,10 @@ public class main extends javax.swing.JFrame {
             .addGap(0, 129, Short.MAX_VALUE)
         );
 
-        panelCaja5.setBackground(new java.awt.Color(204, 204, 204));
-        panelCaja5.setPreferredSize(new java.awt.Dimension(178, 129));
+        jPanel1.add(panelCaja1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, -1, -1));
+        jPanel1.add(barraProgreso2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 180, 178, 18));
 
-        javax.swing.GroupLayout panelCaja5Layout = new javax.swing.GroupLayout(panelCaja5);
-        panelCaja5.setLayout(panelCaja5Layout);
-        panelCaja5Layout.setHorizontalGroup(
-            panelCaja5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 178, Short.MAX_VALUE)
-        );
-        panelCaja5Layout.setVerticalGroup(
-            panelCaja5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 129, Short.MAX_VALUE)
-        );
-
-        panelCaja4.setBackground(new java.awt.Color(204, 204, 204));
-        panelCaja4.setPreferredSize(new java.awt.Dimension(178, 129));
-
-        javax.swing.GroupLayout panelCaja4Layout = new javax.swing.GroupLayout(panelCaja4);
-        panelCaja4.setLayout(panelCaja4Layout);
-        panelCaja4Layout.setHorizontalGroup(
-            panelCaja4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 178, Short.MAX_VALUE)
-        );
-        panelCaja4Layout.setVerticalGroup(
-            panelCaja4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 129, Short.MAX_VALUE)
-        );
-
-        panelCaja3.setBackground(new java.awt.Color(204, 204, 204));
-        panelCaja3.setPreferredSize(new java.awt.Dimension(178, 129));
-
-        javax.swing.GroupLayout panelCaja3Layout = new javax.swing.GroupLayout(panelCaja3);
-        panelCaja3.setLayout(panelCaja3Layout);
-        panelCaja3Layout.setHorizontalGroup(
-            panelCaja3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 178, Short.MAX_VALUE)
-        );
-        panelCaja3Layout.setVerticalGroup(
-            panelCaja3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 129, Short.MAX_VALUE)
-        );
-
-        panelCaja2.setBackground(new java.awt.Color(204, 204, 204));
+        panelCaja2.setBackground(new java.awt.Color(214, 224, 230));
         panelCaja2.setPreferredSize(new java.awt.Dimension(178, 129));
 
         javax.swing.GroupLayout panelCaja2Layout = new javax.swing.GroupLayout(panelCaja2);
@@ -202,124 +128,117 @@ public class main extends javax.swing.JFrame {
             .addGap(0, 129, Short.MAX_VALUE)
         );
 
-        btnLimpiar.setText("Limpiar Lugares");
-        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+        jPanel1.add(panelCaja2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 50, -1, -1));
+
+        panelCaja3.setBackground(new java.awt.Color(214, 224, 230));
+        panelCaja3.setPreferredSize(new java.awt.Dimension(178, 129));
+
+        javax.swing.GroupLayout panelCaja3Layout = new javax.swing.GroupLayout(panelCaja3);
+        panelCaja3.setLayout(panelCaja3Layout);
+        panelCaja3Layout.setHorizontalGroup(
+            panelCaja3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 178, Short.MAX_VALUE)
+        );
+        panelCaja3Layout.setVerticalGroup(
+            panelCaja3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 129, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(panelCaja3, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 50, -1, -1));
+        jPanel1.add(barraProgreso3, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 180, 178, -1));
+
+        panelCaja4.setBackground(new java.awt.Color(214, 224, 230));
+        panelCaja4.setPreferredSize(new java.awt.Dimension(178, 129));
+
+        javax.swing.GroupLayout panelCaja4Layout = new javax.swing.GroupLayout(panelCaja4);
+        panelCaja4.setLayout(panelCaja4Layout);
+        panelCaja4Layout.setHorizontalGroup(
+            panelCaja4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 178, Short.MAX_VALUE)
+        );
+        panelCaja4Layout.setVerticalGroup(
+            panelCaja4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 129, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(panelCaja4, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 50, -1, -1));
+        jPanel1.add(barraProgreso4, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 180, 178, -1));
+
+        panelCaja5.setBackground(new java.awt.Color(214, 224, 230));
+        panelCaja5.setPreferredSize(new java.awt.Dimension(178, 129));
+
+        javax.swing.GroupLayout panelCaja5Layout = new javax.swing.GroupLayout(panelCaja5);
+        panelCaja5.setLayout(panelCaja5Layout);
+        panelCaja5Layout.setHorizontalGroup(
+            panelCaja5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 178, Short.MAX_VALUE)
+        );
+        panelCaja5Layout.setVerticalGroup(
+            panelCaja5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 129, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(panelCaja5, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 50, 178, -1));
+        jPanel1.add(barraProgreso5, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 180, 178, -1));
+
+        jLabelLectores.setBackground(new java.awt.Color(214, 224, 230));
+        jPanel1.add(jLabelLectores, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 266, 259));
+
+        panelEsperaGeneral.setBackground(new java.awt.Color(214, 224, 230));
+        panelEsperaGeneral.setPreferredSize(new java.awt.Dimension(178, 516));
+        panelEsperaGeneral.setRequestFocusEnabled(false);
+
+        javax.swing.GroupLayout panelEsperaGeneralLayout = new javax.swing.GroupLayout(panelEsperaGeneral);
+        panelEsperaGeneral.setLayout(panelEsperaGeneralLayout);
+        panelEsperaGeneralLayout.setHorizontalGroup(
+            panelEsperaGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 178, Short.MAX_VALUE)
+        );
+        panelEsperaGeneralLayout.setVerticalGroup(
+            panelEsperaGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 381, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(panelEsperaGeneral, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 230, -1, 381));
+        jPanel1.add(jLabelEscritores, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 250, 267, 279));
+
+        btnIngresarEscritor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/button_ingresar-escritores.png"))); // NOI18N
+        btnIngresarEscritor.setBorder(null);
+        btnIngresarEscritor.setBorderPainted(false);
+        btnIngresarEscritor.setContentAreaFilled(false);
+        btnIngresarEscritor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLimpiarActionPerformed(evt);
+                btnIngresarEscritorActionPerformed(evt);
             }
         });
+        jPanel1.add(btnIngresarEscritor, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 550, 302, -1));
 
-        jLabel3.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Despacho");
-
-        btnAtender.setText("Atender General");
-        btnAtender.addActionListener(new java.awt.event.ActionListener() {
+        btnIngresarLector.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/button_ingresar-lectores.png"))); // NOI18N
+        btnIngresarLector.setBorder(null);
+        btnIngresarLector.setBorderPainted(false);
+        btnIngresarLector.setContentAreaFilled(false);
+        btnIngresarLector.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/img/button_ingresar-lectores.png"))); // NOI18N
+        btnIngresarLector.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/img/button_ingresar-lectores.png"))); // NOI18N
+        btnIngresarLector.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAtenderActionPerformed(evt);
+                btnIngresarLectorActionPerformed(evt);
             }
         });
-
-        btnAtenderEscritor.setText("Atender Escritor");
-        btnAtenderEscritor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAtenderEscritorActionPerformed(evt);
-            }
-        });
+        jPanel1.add(btnIngresarLector, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 540, 318, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(49, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 903, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(panelCaja1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(panelCaja2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(panelCaja3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(panelCaja4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(barraProgreso1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(barraProgreso2, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(barraProgreso3, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(barraProgreso4, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(panelEsperaGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(90, 90, 90)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnLimpiar)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(btnIngresarLector)
-                                            .addComponent(btnAtender, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(50, 50, 50)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(btnIngresarEscritor)
-                                            .addComponent(btnAtenderEscritor, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(barraProgreso5, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(panelCaja5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(panelEsperaEscritor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(51, 51, 51))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1069, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(barraProgreso1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(barraProgreso2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(barraProgreso5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(barraProgreso3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(barraProgreso4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(panelCaja3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(panelCaja4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(panelCaja2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(panelCaja1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(panelCaja5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(37, 37, 37)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(panelEsperaEscritor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(panelEsperaGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnIngresarLector)
-                            .addComponent(btnIngresarEscritor))
-                        .addGap(36, 36, 36)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnAtender, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAtenderEscritor))
-                        .addGap(35, 35, 35)
-                        .addComponent(btnLimpiar)
-                        .addGap(40, 40, 40)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 676, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -340,10 +259,17 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
     }
 
     public int ingresarCliente(JPanel panel, Cliente cliente, ArrayList<Cliente> clientes, int posicionY) {
+        /*Se verifica que el array es menor a cuatro, 
+          por que es lo que cabe en el panel general, y en el panel de bloqueados
+         */
         if (clientes.size() < 4) {
+            /*Se modifica la posicion del label del cliente*/
             cliente.getLabel().setBounds(0, posicionY, 178, 129);
+            //se agrega el label del cliente al panel 
             panel.add(cliente.getLabel());
+            //se actuliza el panel para mostrar el label del cliente 
             panel.repaint();
+            //se incrementa la posicion en Y, la cual s
             posicionY += 129;
             clientes.add(cliente);
         } else {
@@ -357,9 +283,17 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
         for (Despachador despachador : despachadores) {
             if (despachador.getEstado() == 0) {//verificamos el estado 
                 //removemos del panel de espera general el cliente que este en la primera posicion
+                try {
+                     //rsscalelabel.RSScaleLabel.setScaleLabel(jLabelLector1, "src/img/lector.png");
+                    mutex.acquire();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 panel.remove(clientes.get(0).getLabel());
                 //volvemos a pintar el panel
+                
                 panel.repaint();
+                mutex.release();
                 //le ingresamos al despachador el cliente 
                 despachador.setCliente(clientes.get(0));
                 //agragamos el label del cliente al panel del despachador 
@@ -367,77 +301,91 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
                 //volvemos a pintar el panel del despachador 
                 despachador.getPanel().repaint();
                 //removemos de la lista de clientes el primer cliente 
+                try {
+                    mutex.acquire();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 clientes.remove(0);
                 //desplazamos los clientes una posicion
                 desplazarCliente(panel, clientes, posicionY);
+                mutex.release();
                 //pones el estado del despachador en 1, lo que signfica que ahora esta ocupado
                 despachador.setEstado(1);
                 AtenderCliente atender = new AtenderCliente(despachador);
                 atender.start();
+                contadorLectores++;//aumenta el numero de lectores en el area critica
                 break;
             }
 
+        }
+        //rsscalelabel.RSScaleLabel.setScaleLabel(jLabelLector1, "");
+
+    }
+
+    //Previo a atender clientes
+    public void condiciondeAtender() {
+
+        if (clientesGeneral.size() > 0) {//antes de atender debe de ver que existan clientes 
+            if (clientesGeneral.get(0).getTipoCliente() == 0) { // si es un lector 
+                if (escritorEnArea == false) {
+
+                    AtenderEscritor(panelEsperaGeneral, clientesGeneral, 0);//atiende al lector
+                    System.out.println("Mas contador: " + contadorLectores);
+                }
+            } else if (clientesGeneral.get(0).getTipoCliente() == 1) {//si es un escritor 
+                System.out.println("entro");
+                /*para atender a un escritor debe de ver que en el area critica 
+                  no hayan ni lectores ni escritores
+                 */
+                if (contadorLectores == 0 && escritorEnArea == false) {
+                    //atiende al escritor, lo pone en el area critica 
+                    AtenderEscritor(panelEsperaGeneral, clientesGeneral, 0);
+                    /*pone en verdadera la bandera de escritor en area critica
+                     esto indica que hay un escritor en el area critica y no puede acceder 
+                     ni un lector, ni un escritor 
+                     */
+                    escritorEnArea = true;
+                }
+                /*Este else es si existe algun proceso en el area critica
+                  lo que va a hacer es mandarlo a bloqueado, lo cual seria lo cual seria 
+                  el panel de la derecha, el de fila escritor bloqueado
+                 */
+            }
+        } else {
+            //JOptionPane.showMessageDialog(null, "No hay clientes para antender en el general", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
     }
 
     private void btnIngresarLectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarLectorActionPerformed
         Cliente cliente = new Cliente(0);
+        try {
+            
+            mutex.acquire();
+           
+        } catch (InterruptedException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
         posicionGeneralY = ingresarCliente(panelEsperaGeneral, cliente, clientesGeneral, posicionGeneralY);
+        mutex.release();
+        condiciondeAtender();
+        
         System.out.println(posicionGeneralY);
     }//GEN-LAST:event_btnIngresarLectorActionPerformed
 
     private void btnIngresarEscritorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarEscritorActionPerformed
         Cliente cliente = new Cliente(1);
+        try {
+            mutex.acquire();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
         posicionGeneralY = ingresarCliente(panelEsperaGeneral, cliente, clientesGeneral, posicionGeneralY);
+        mutex.release();
+        condiciondeAtender();
         System.out.println(posicionGeneralY);
     }//GEN-LAST:event_btnIngresarEscritorActionPerformed
-
-    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-
-    }//GEN-LAST:event_btnLimpiarActionPerformed
-
-    private void btnAtenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtenderActionPerformed
-        //atender a clientes del panel general 
-        if (clientesGeneral.size() > 0) {
-            if (clientesGeneral.get(0).getTipoCliente() == 0) {
-                if (escritorEnArea == false) {
-                    AtenderEscritor(panelEsperaGeneral, clientesGeneral, 0);
-                    contadorLectores++;
-                }
-            } else if (clientesGeneral.get(0).getTipoCliente() == 1) {
-                System.out.println("entro");
-                if (contadorLectores == 0 && escritorEnArea == false) {
-                    AtenderEscritor(panelEsperaGeneral, clientesGeneral, 0);
-                    escritorEnArea = true;
-
-                } else {
-                    Cliente cliente = clientesGeneral.get(0);
-                    clientesGeneral.remove(0);
-                    panelEsperaGeneral.remove(cliente.getLabel());
-                    panelEsperaGeneral.repaint();
-                    posicionEscritorY = ingresarCliente(panelEsperaEscritor, cliente, clientesEscritor, posicionEscritorY);
-                    desplazarCliente(panelEsperaGeneral, clientesGeneral, 0);
-                }
-            }
-
-        } else {
-            JOptionPane.showMessageDialog(null, "No hay clientes para antender en el general", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-    }//GEN-LAST:event_btnAtenderActionPerformed
-
-    private void btnAtenderEscritorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtenderEscritorActionPerformed
-        if (clientesEscritor.size() > 0) {
-            if (contadorLectores == 0 && escritorEnArea == false) {
-                AtenderEscritor(panelEsperaEscritor, clientesEscritor, 1);
-                escritorEnArea = true;
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "No hay clientes para antender en la lista de escritores", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-    }//GEN-LAST:event_btnAtenderEscritorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -501,15 +449,35 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
             //dejamos la barra de progreso igual a cero
             despachador.getBarra().setValue(0);
             //si hay mas de un lector se reduce
-            if (contadorLectores != 0) {
-                contadorLectores -= 1;
+            if (contadorLectores > 0) {
+                contadorLectores--;
             }
+            if (escritorEnArea) {
+                if (clientesEscritor.size() == 0) {
+                    for (Despachador despachador : despachadores) {
+                        if (despachador.getEstado() == 0) {
+                            if (clientesGeneral.size() > 0) {
+                                escritorEnArea = false;
+                                if (clientesGeneral.get(0).getTipoCliente() == 0) {
+                                    condiciondeAtender();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            System.out.println("Menos contador: " + contadorLectores);
             //si entro un escritor se pone en falso
             escritorEnArea = false;
+            condiciondeAtender();
 
         }
 
     }
+    
+    
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JProgressBar barraProgreso1;
@@ -517,20 +485,19 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
     private javax.swing.JProgressBar barraProgreso3;
     private javax.swing.JProgressBar barraProgreso4;
     private javax.swing.JProgressBar barraProgreso5;
-    private javax.swing.JButton btnAtender;
-    private javax.swing.JToggleButton btnAtenderEscritor;
     private javax.swing.JButton btnIngresarEscritor;
     private javax.swing.JButton btnIngresarLector;
-    private javax.swing.JButton btnLimpiar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabelEscritores;
+    private javax.swing.JLabel jLabelLectores;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel panelCaja1;
     private javax.swing.JPanel panelCaja2;
     private javax.swing.JPanel panelCaja3;
     private javax.swing.JPanel panelCaja4;
     private javax.swing.JPanel panelCaja5;
-    private javax.swing.JPanel panelEsperaEscritor;
     private javax.swing.JPanel panelEsperaGeneral;
     // End of variables declaration//GEN-END:variables
+
 }
+
