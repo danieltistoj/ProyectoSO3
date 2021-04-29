@@ -34,7 +34,6 @@ public class main extends javax.swing.JFrame {
         initComponents();
         setVisible(true);
         setLocationRelativeTo(null);
-        this.setSize(new Dimension(1069, 676));
         clientesGeneral = new ArrayList<Cliente>();
         clientesEscritor = new ArrayList<>();
         despachadores = new ArrayList<Despachador>();
@@ -196,10 +195,10 @@ public class main extends javax.swing.JFrame {
         );
         panelEsperaGeneralLayout.setVerticalGroup(
             panelEsperaGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 381, Short.MAX_VALUE)
+            .addGap(0, 550, Short.MAX_VALUE)
         );
 
-        jPanel1.add(panelEsperaGeneral, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 230, -1, 381));
+        jPanel1.add(panelEsperaGeneral, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 230, -1, 550));
         jPanel1.add(jLabelEscritores, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 250, 267, 279));
 
         btnIngresarEscritor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/button_ingresar-escritores.png"))); // NOI18N
@@ -231,14 +230,12 @@ public class main extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1069, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1022, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 676, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 792, Short.MAX_VALUE)
         );
 
         pack();
@@ -255,7 +252,6 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
         } else {
             posicionEscritorY -= 129;
         }
-
     }
 
     public int ingresarCliente(JPanel panel, Cliente cliente, ArrayList<Cliente> clientes, int posicionY) {
@@ -329,7 +325,6 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
         if (clientesGeneral.size() > 0) {//antes de atender debe de ver que existan clientes 
             if (clientesGeneral.get(0).getTipoCliente() == 0) { // si es un lector 
                 if (escritorEnArea == false) {
-
                     AtenderEscritor(panelEsperaGeneral, clientesGeneral, 0);//atiende al lector
                     System.out.println("Mas contador: " + contadorLectores);
                 }
@@ -361,16 +356,13 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
     private void btnIngresarLectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarLectorActionPerformed
         Cliente cliente = new Cliente(0);
         try {
-            
             mutex.acquire();
-           
         } catch (InterruptedException ex) {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
         }
         posicionGeneralY = ingresarCliente(panelEsperaGeneral, cliente, clientesGeneral, posicionGeneralY);
         mutex.release();
         condiciondeAtender();
-        
         System.out.println(posicionGeneralY);
     }//GEN-LAST:event_btnIngresarLectorActionPerformed
 
@@ -470,14 +462,8 @@ public void desplazarCliente(JPanel panel, ArrayList<Cliente> clientes, int posi
             //si entro un escritor se pone en falso
             escritorEnArea = false;
             condiciondeAtender();
-
         }
-
     }
-    
-    
-    
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JProgressBar barraProgreso1;
