@@ -93,7 +93,7 @@ public class main extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Despacho");
+        jLabel3.setText("REGIÓN CRÍTICA");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 903, 25));
         jPanel1.add(barraProgreso1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, 178, 18));
 
